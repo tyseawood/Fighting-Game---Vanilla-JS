@@ -6,8 +6,7 @@ function rectangularCollision({rectangle1, rectangle2 }) {
             rectangle2.position.x + rectangle2.width &&
         rectangle1.attackBox.position.y + rectangle1.attackBox.height >=
             rectangle2.position.y &&
-        rectangle1.attackBox.position.y <=
-            rectangle2.position.y + rectangle2.height
+        rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
     )
 }
 
@@ -33,6 +32,6 @@ function decreaseTimer() {
     }
 
     if (timer === 0) {
-        determineWinner(player, enemy, timerId)
+        determineWinner({ player, enemy, timerId })
     }
 }
