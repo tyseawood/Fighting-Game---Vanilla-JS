@@ -1,3 +1,4 @@
+//Global Canvas Setup
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d');
 
@@ -8,6 +9,7 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 
 const gravity = 0.7
 
+//Sprites
 const background = new Sprite({
     position: {
         x: 0,
@@ -62,7 +64,13 @@ const player = new Fighter({
         fall: {
             imageSrc: './img/samuraiMack/Fall.png',
             framesMax: 2
-        }
+        },
+        attack1: {
+            imageSrc: './img/samuraiMack/Attack1.png',
+            framesMax: 6
+        },
+
+
     }
 })
 
@@ -81,7 +89,6 @@ const enemy = new Fighter({
         y: 0
     }
 })
-console.log(player)
 
 const keys = {
     a: {
@@ -99,7 +106,7 @@ const keys = {
 }
 
 decreaseTimer()
-
+//Animate functionality
 function animate() {
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
@@ -172,6 +179,7 @@ function animate() {
 
 animate()
 
+//Player movement - Key assignments
 window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'd':

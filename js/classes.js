@@ -13,7 +13,7 @@ class Sprite {
         this.image.src = imageSrc
         this.scale = scale
         this.framesMax = framesMax
-        this.frameCurrent = 0
+        this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 5
         this.offset = offset
@@ -22,7 +22,7 @@ class Sprite {
     draw() {
         c.drawImage(
             this.image,
-            this.frameCurrent * (this.image.width / this.framesMax),
+            this.framesCurrent * (this.image.width / this.framesMax),
             0,
             this.image.width / this.framesMax, //6 refers to the amount of frames in the actual image
             this.image.height,
@@ -37,10 +37,10 @@ class Sprite {
         this.framesElapsed++
 
         if (this.framesElapsed % this.framesHold === 0) {
-           if (this.frameCurrent < this.framesMax - 1) {
-            this.frameCurrent++
+           if (this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++
             } else {
-            this.frameCurrent = 0
+            this.framesCurrent = 0
             } 
         }
     }
@@ -85,7 +85,7 @@ class Fighter extends Sprite {
         this.color = color
         this.isAttacking
         this.health = 100
-        this.frameCurrent = 0
+        this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 5
         this.sprites = sprites
@@ -99,7 +99,8 @@ class Fighter extends Sprite {
     update() {
         this.draw()
         this.animateFrames()
-
+        
+        //Attack
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y + this.attackBox.offset.y
         
@@ -114,6 +115,7 @@ class Fighter extends Sprite {
     }
 
     attack() {
+        this.switchSprite('attack1')
         this.isAttacking = true
         setTimeout(() => {
             this.isAttacking = false
@@ -121,6 +123,12 @@ class Fighter extends Sprite {
     }   
 
     switchSprite(sprite) {
+        if (
+            this.image === this.sprites.attack1.image &&
+            this.framesCurrent < this.sprites.attack1.framesMax - 1
+        )
+            return
+        
         switch (sprite) {
             case 'idle':
                 if (this.image !== this.sprites.idle.image) {
@@ -150,7 +158,13 @@ class Fighter extends Sprite {
                     this.framesCurrent = 0
                 }
                 break
-            
+            case 'attack1':
+                if (this.image !== this.sprites.attack1.image) {
+                    this.image = this.sprites.attack1.image
+                    this.framesMax = this.sprites.attack1.framesMax 
+                    this.framesCurrent = 0
+                }
+                break
         }
     }
 }
